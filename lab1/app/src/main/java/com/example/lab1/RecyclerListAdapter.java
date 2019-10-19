@@ -1,10 +1,13 @@
 package com.example.lab1;
 
 import android.graphics.Color;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,8 +22,10 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
     };
 
     private final List<String> mItems = new ArrayList<>();
+    private final OnStartDragListener mDragStartListener;
 
-    public RecyclerListAdapter() {
+    public RecyclerListAdapter(OnStartDragListener dragStartListener) {
+        mDragStartListener = dragStartListener;
         mItems.addAll(Arrays.asList(STRINGS));
     }
 
@@ -34,6 +39,16 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
     @Override
     public void onBindViewHolder(final ItemViewHolder holder, int position) {
         holder.textView.setText(mItems.get(position));
+        holder.handleView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (MotionEventCompat.getActionMasked(event) ==
+                        MotionEvent.ACTION_DOWN) {
+                    mDragStartListener.onStartDrag(holder);
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -58,10 +73,12 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
             ItemTouchHelperViewHolder {
 
         public final TextView textView;
+        public final ImageView handleView;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
-            textView = (TextView) itemView;
+            textView = (TextView) itemView.findViewById(R.id.text);
+            handleView = (ImageView) itemView.findViewById(R.id.handle);
         }
 
         @Override

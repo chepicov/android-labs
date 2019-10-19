@@ -11,7 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class RecyclerListFragment extends Fragment {
+public class RecyclerListFragment extends Fragment implements
+        OnStartDragListener {
 
     private ItemTouchHelper mItemTouchHelper;
 
@@ -25,10 +26,10 @@ public class RecyclerListFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onViewCreated(View view, Bundle icicle) {
+        super.onViewCreated(view, icicle);
 
-        RecyclerListAdapter adapter = new RecyclerListAdapter();
+        RecyclerListAdapter adapter = new RecyclerListAdapter(this);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -40,4 +41,8 @@ public class RecyclerListFragment extends Fragment {
         mItemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        mItemTouchHelper.startDrag(viewHolder);
+    }
 }
