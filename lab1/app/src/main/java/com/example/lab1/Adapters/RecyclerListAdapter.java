@@ -24,33 +24,48 @@ import java.util.List;
 public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapter.ItemViewHolder>
         implements ItemTouchHelperAdapter {
 
-    private static final int[] LEVEL = new int[]{
-            R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_background
+    private static final int[] LEVEL1 = new int[]{
+            R.drawable.cat9,
+            R.drawable.cat8,
+            R.drawable.cat7,
+            R.drawable.cat6,
+            R.drawable.cat5,
+            R.drawable.cat4,
+            R.drawable.cat3,
+            R.drawable.cat2,
+            R.drawable.cat1
+    };
+
+    private static final int[] LEVEL2 = new int[]{
+            R.drawable.apple9,
+            R.drawable.apple8,
+            R.drawable.apple7,
+            R.drawable.apple6,
+            R.drawable.apple5,
+            R.drawable.apple4,
+            R.drawable.apple3,
+            R.drawable.apple2,
+            R.drawable.apple1
     };
 
     private final List<Integer> mItems = new ArrayList<>();
     private final OnStartDragListener mDragStartListener;
+    private int[] currentLevel = LEVEL1;
 
     public RecyclerListAdapter(OnStartDragListener dragStartListener) {
         mDragStartListener = dragStartListener;
-        for (int i = 0; i < LEVEL.length; i++) {
-            mItems.add(i, LEVEL[i]);
+        for (int i = 0; i < currentLevel.length; i++) {
+            mItems.add(i, currentLevel[i]);
         }
-        Collections.shuffle(mItems);
+        do {
+            Collections.shuffle(mItems);
+        } while (checkWin());
     }
 
     private boolean checkWin() {
         boolean isWinner = true;
-        for (int i = 0; i < LEVEL.length; i++) {
-            if (mItems.get(i) != LEVEL[i]) {
+        for (int i = 0; i < currentLevel.length; i++) {
+            if (mItems.get(i) != currentLevel[i]) {
                 isWinner = false;
                 break;
             }
@@ -88,8 +103,17 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        Integer prev = mItems.remove(fromPosition);
-        mItems.add(toPosition > fromPosition ? toPosition - 1 : toPosition, prev);
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(mItems, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(mItems, i, i - 1);
+                Log.d("a", i + "");
+            }
+        }
+
         if (checkWin()) {
             Log.d("Win", "Winner");
         }
