@@ -1,4 +1,4 @@
-package com.example.lab1;
+package com.example.lab1.Helpers.ItemTouchHelper;
 
 import android.graphics.Canvas;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +19,7 @@ public class MyItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public boolean isItemViewSwipeEnabled() {
-        return true;
+        return false;
     }
 
     @Override
