@@ -11,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.lab1.Helpers.ItemTouchHelper.MyItemTouchHelperCallback;
 import com.example.lab1.Adapters.OnStartDragListener;

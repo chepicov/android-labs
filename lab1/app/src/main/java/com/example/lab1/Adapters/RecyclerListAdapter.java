@@ -46,6 +46,17 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
             R.drawable.apple3,
             R.drawable.apple2,
             R.drawable.apple1
+        },
+        {
+            R.drawable.papich1,
+            R.drawable.papich2,
+            R.drawable.papich3,
+            R.drawable.papich4,
+            R.drawable.papich5,
+            R.drawable.papich6,
+            R.drawable.papich7,
+            R.drawable.papich8,
+            R.drawable.papich9
         }
     };
 
@@ -91,9 +102,7 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
         if (!checkWin()) {
             return;
         }
-        Toast toast = Toast.makeText(context, "YOU WON!", Toast.LENGTH_SHORT);
-        toast.show();
-        currentLevel = LEVELS[++currentLevelIndex];
+        currentLevel = LEVELS[Math.min(LEVELS.length - 1, ++currentLevelIndex)];
         button.setText("Next Level");
         button.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
     }
